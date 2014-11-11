@@ -628,8 +628,8 @@ subject.</p>
 <div class="sectionbody">
 <div class="paragraph">
 <p>The very first thing that we will do is we will find out our current working directory.
-To that end we will use command <strong>pwd</strong>, which stands for <strong><em>print working directory</em></strong>.
-Type <strong>pwd</strong> and press <strong>[Enter]</strong> key on the keyboard.</p>
+Open a terminal and type command <strong>pwd</strong>, which stands for <strong><em>print working directory</em></strong> and
+then press <strong>[Enter]</strong> key on the keyboard.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -639,8 +639,17 @@ Type <strong>pwd</strong> and press <strong>[Enter]</strong> key on the keyboard
 </div>
 <div class="paragraph">
 <p>The second line above contains result of running this command, which is just a
-print out of current working directory.
-To change current working directory we use another command <strong>cd</strong>, which stands
+print out of current working directory. The directory you will see will be your
+<strong><em>home directory</em></strong>. In my case it is <em>/home/priimak</em>, yours will be different.
+Whenever you login into UNIX you automatically placed in your home directory.
+In there you can create files and other directories, delete and rename them at will.
+In directories outside of your home directory you will be able to see file but not
+alter them in any way or form. For example directory <em>/etc</em> contains configuration
+files used by the whole of the operating system. You will be able to see what
+files are in there and see what is inside of those files, but not edit or delete them.</p>
+</div>
+<div class="paragraph">
+<p>To change current working directory we use another command <strong>cd</strong>, which stands
 for <strong><em>change directory</em></strong>. Lets go to the root directory.</p>
 </div>
 <div class="listingblock">
@@ -764,13 +773,45 @@ reading manual for any command that you find under /bin or any other location.
 But we are not going to stop here, since our task is to give basic knowledge needed
 to navigate UNIX CLI.</p>
 </div>
+<div class="paragraph">
+<p>Now lets get back to the command <strong>cd</strong>. In the listing for <code>ls -a /</code> you can see several
+strange directories <code>./</code> and <code>../</code>. These are <em>magic</em> directories and there are other
+magic directories as well. The other one is <code>~</code>. Try doing following</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="bash"><span class="tok-nv">$ </span><span class="tok-nb">cd</span> ~</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You will end up in your home directory. Thus tilde <code>~</code> is a magic directory that points
+to your home directory. For different people that will be different directory. Note, that
+using <strong>cd</strong> without any options will also take you to your home directory. Directory <code>./</code>
+is a pointer to your current directory. That seems quite useless, but as you will see
+later it is actually quite useful. Directory <code>../</code> refers to the directory right above.
+For example, if we go to <em>/usr/local</em> and that do <strong>cd ..</strong> you will end up in <em>/usr</em>. Doing
+that one more time will take you to the root /. Try it as follows.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="bash"><span class="tok-nv">$ </span><span class="tok-nb">cd</span> /usr/local
+<span class="tok-nv">$ </span><span class="tok-nb">pwd</span>
+/usr/local
+<span class="tok-nv">$ </span><span class="tok-nb">cd</span> ../
+<span class="tok-nv">$ </span><span class="tok-nb">pwd</span>
+/usr
+<span class="tok-nv">$ </span><span class="tok-nb">cd</span> ../
+<span class="tok-nv">$ </span><span class="tok-nb">pwd</span>
+/</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_reading_writing_and_other_file_manipulations">Reading, Writing and Other File Manipulations</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Now we know how find our way around UNIX file system and would like to see what
+<p>Now that we know how find our way around UNIX file system and would like to see what
 is inside of the files. Files in the <em>/bin</em> directory are programs that contain
 instructions for the central processing unit (CPU) and you need special tools
 make sense of their content. But files that contain text can be just printed out
@@ -824,6 +865,21 @@ should see in there your own username. To find what these fields mean do</p>
 <div class="content">
 <pre class="pygments highlight"><code data-lang="bash"><span class="tok-nv">$ </span>man <span class="tok-m">5</span> passwd</code></pre>
 </div>
+</div>
+<div class="paragraph">
+<p>Command <strong>cat</strong> will print out file no matter how long it is, which means that content
+of the file will be scrolled by in the terminal and it will be difficult to read.
+To page through content of the text file you can use command <strong>less</strong>. For example try following</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="bash"><span class="tok-nv">$ </span>less /var/log/syslog</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>File <em>/var/log/syslog</em> should be quite long, but now you can scroll up and down just
+by using arrow keys, as well as <code>[PgUp]</code> and <code>[PgDn]</code>. You can quit <strong>less</strong> by pressing <strong>q</strong> key.
+Learn about this command by using command <strong>man</strong>.</p>
 </div>
 <table class="tableblock frame-topbot grid-all spread">
 <colgroup>
@@ -880,6 +936,11 @@ should see in there your own username. To find what these fields mean do</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">print out content of one or more files</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>less</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">print out content of the file page by page</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>cp</code></p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">make copy of a file</p></td>
@@ -928,7 +989,7 @@ should see in there your own username. To find what these fields mean do</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2014-11-10 18:16:15 PST
+Last updated 2014-11-10 20:04:45 PST
 </div>
 </div>
 </body>
