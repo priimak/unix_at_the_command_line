@@ -1,5 +1,6 @@
 #!/bin/bash
 
+[ ! -f .adoc.ts ] && touch .adoc.ts
 while true
 do
     for f in `find src -type f -name '*.adoc' -newer .adoc.ts`

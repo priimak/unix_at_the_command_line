@@ -120,15 +120,23 @@ subject.
 File System Navigation
 ----------------------
 The very first thing that we will do is we will find out our current working directory.
-To that end we will use command *pwd*, which stands for *_print working directory_*.
-Type *pwd* and press *[Enter]* key on the keyboard.
+Open a terminal and type command *pwd*, which stands for *_print working directory_* and 
+then press *[Enter]* key on the keyboard.
 [source,bash]
 -------------------------------------------
 $ pwd                                   
 /home/priimak
 -------------------------------------------
 The second line above contains result of running this command, which is just a 
-print out of current working directory.
+print out of current working directory. The directory you will see will be your 
+*_home directory_*. In my case it is _/home/priimak_, yours will be different. 
+Whenever you login into UNIX you automatically placed in your home directory.
+In there you can create files and other directories, delete and rename them at will.
+In directories outside of your home directory you will be able to see file but not 
+alter them in any way or form. For example directory _/etc_ contains configuration 
+files used by the whole of the operating system. You will be able to see what 
+files are in there and see what is inside of those files, but not edit or delete them.
+
 To change current working directory we use another command *cd*, which stands 
 for *_change directory_*. Lets go to the root directory.
 [source,bash]
@@ -201,7 +209,6 @@ To discover other arguments possible to pass to the *ls* command you can use
 another command called *man*, which stands for manual. To see manual for any 
 of the commands found in /bin or /usr/bin you can type *_man [command name]_*.
 Try 
-
 [source,bash]
 -------------------------------------------
 $ man ls
@@ -234,9 +241,36 @@ reading manual for any command that you find under /bin or any other location.
 But we are not going to stop here, since our task is to give basic knowledge needed 
 to navigate UNIX CLI.
 
+Now lets get back to the command *cd*. In the listing for `ls -a /` you can see several 
+strange directories `./` and `../`. These are _magic_ directories and there are other 
+magic directories as well. The other one is `~`. Try doing following
+[source,bash]
+-------------------------------------------
+$ cd ~
+-------------------------------------------
+You will end up in your home directory. Thus tilde `~` is a magic directory that points 
+to your home directory. For different people that will be different directory. Note, that 
+using *cd* without any options will also take you to your home directory. Directory `./`
+is a pointer to your current directory. That seems quite useless, but as you will see 
+later it is actually quite useful. Directory `../` refers to the directory right above. 
+For example, if we go to _/usr/local_ and that do *cd ..* you will end up in _/usr_. Doing 
+that one more time will take you to the root /. Try it as follows.
+[source,bash]
+-------------------------------------------
+$ cd /usr/local
+$ pwd
+/usr/local
+$ cd ../
+$ pwd
+/usr
+$ cd ../
+$ pwd
+/
+-------------------------------------------
+
 Reading, Writing and Other File Manipulations
 ---------------------------------------------
-Now we know how find our way around UNIX file system and would like to see what 
+Now that we know how find our way around UNIX file system and would like to see what 
 is inside of the files. Files in the _/bin_ directory are programs that contain 
 instructions for the central processing unit (CPU) and you need special tools 
 make sense of their content. But files that contain text can be just printed out 
@@ -281,6 +315,16 @@ should see in there your own username. To find what these fields mean do
 -------------------------------------------
 $ man 5 passwd
 -------------------------------------------
+Command *cat* will print out file no matter how long it is, which means that content 
+of the file will be scrolled by in the terminal and it will be difficult to read.
+To page through content of the text file you can use command *less*. For example try following
+[source,bash]
+-------------------------------------------
+$ less /var/log/syslog 
+-------------------------------------------
+File _/var/log/syslog_ should be quite long, but now you can scroll up and down just 
+by using arrow keys, as well as `[PgUp]` and `[PgDn]`. You can quit *less* by pressing *q* key.
+Learn about this command by using command *man*.
 
 [width="100%", cols="1,1,98", frame="topbot", options="header"]
 |===
@@ -293,9 +337,10 @@ $ man 5 passwd
 | `man`            |                      | manual pages
 | `file`           | 			  | determine file type
 | `cat`            |                      | print out content of one or more files
+| `less`           |                      | print out content of the file page by page
 | `cp`             |                      | make copy of a file
 | `mv`             |                      | move file from one location to another, i.e. rename
-| `vi`, `vim`   |                      | text file editor
+| `vi`, `vim`      |                      | text file editor
 |===
 
 Next Steps
