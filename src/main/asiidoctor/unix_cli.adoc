@@ -8,7 +8,7 @@ Introduction
 ------------
 Unix is an operating system (OS), similar to Windows, Mac OS X and many others 
 some of which are already gone. But what is an _operating system_? In most 
-general terms is a certain way to communicate with a computer. Unix was created by 
+general terms it is a certain way to communicate with a computer. Unix was created by 
 programmers for programmers and as such it is unique in its expressive power. That 
 power comes with the cost of steep learning curve, but so are the all worthwhile 
 things in life. The most important way of interacting with the computer that Unix 
