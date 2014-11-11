@@ -1,0 +1,308 @@
+UNIX at the Command Line
+========================
+:source-highlighter: pygments
+:pygments-style: perldoc
+Dmitri Priimak <priimak@gmail.com>
+
+Introduction
+------------
+Unix is an operating system (OS), similar to Windows, Mac OS X and many others 
+some of which are already gone. But what is an _operating system_? In most 
+general terms is a certain way to communicate with a computer. Unix was created by 
+programmers for programmers and as such it is unique in its expressive power. That 
+power comes with the cost of steep learning curve, but so are the all worthwhile 
+things in life. The most important way of interacting with the computer that Unix 
+offers is through the terminal-shell combination, which is what we will explore in 
+this tutorial. This interaction with computer through terminal-shell is known 
+as *_command line interface_* or simply CLI. Just as this name implies once you 
+learn this way of interacting with computer you will be in control of the computer 
+to the degree not possible to achieve by any other means. So, lets get started.
+
+File System
+-----------
+The singular most important concept of any modern operating system 
+is a concept of _file_. A file is a bucket of data that have a name.
+Such buckets of data can contain images, music, video or documents.  
+They can also contain computer instructions, also known as _programs_.
+In Unix you will ways find files with these names
+[source,bash]
+-------------------------------------------
+/bin/ls
+/var/log/dmesg
+-------------------------------------------
+Notice that these names contain forward slash characters '/'. Such names 
+are known as *_full names_* or *_full path_*. It is customary to think of such 
+names as consisting of two parts a *_directory name_*, which is everything up 
+to the last slash and the rest known as *_file name_*. For example the full path 
+_/var/log/dmesg_ consists of two parts, directory _/var/log_ and file name 
+_dmesg_. The totality of all file and directory names is known 
+as a *_file system_*.
+Using concept of _current working directory_ (CWD) allows us to 
+address files by their simple names, which is done by combining CWD and simple
+name together to form full path. Thus dividing full file names into directories
+and simple file names allows us to look at the file system as a tree structure.
+Any Unix will have following directories in the directory tree.
+[source,bash]
+-------------------------------------------
+/
+├──etc/
+├──bin/
+├──usr/
+│   ├──bin/
+│   ├──lib/
+│   └──local/
+│      ├──bin/
+│      └──lib/
+└──var/
+   └──log/
+-------------------------------------------
+The topmost directory is */* and is known as a *_root_* of the file system tree.
+Thus in the root _/_ directory there is directory _usr/_, in the _usr/_ directory 
+there is directory _local/_, in the directory _local/_ there is directory _bin/_ 
+forming full path _/usr/local/bin/_.
+The actual OS will always contain many more directories than shown here, but every 
+Unix will contain directories shown above. The directories _bin/_ and _lib/_ have 
+special meaning in UNIX, _bin/_ contains executable commands or programs and _lib/_ 
+obviously libraries used by programs located in _bin/_.
+
+Terminal and Shell
+------------------
+So, how do we interact with the files? The best way to do so is through a terminal 
+and shell. These two programs (terminal and shell) provide textual interaction with 
+the file system. In other words, you will have to type to interact with the files, 
+to see what files there are, their full names and other attributes (like creation 
+time), to create, modify and delete them. To do that you will not need mouse at all!
+
+When you start a terminal you start two programs, the terminal emulator program and 
+the shell and when you type something it is the shell that reads what you type and acts 
+upon it, typically by executing other programs. Different terminal emulators differ 
+slightly and that difference will not be of interest for us, but different shells
+can offer different features that can be very noticeable. Most likely
+when you open a terminal you will be running link:http://www.gnu.org/software/bash[bash] 
+shell. You will see a blinking or solid cursor on the line where you can enter commands.
+That line is known as *_command line_* and it commonly has prefix that ends with 
+character '$' or '>' known as command line *_prompt_*. In this text we will use 
+dollar sign '$'. When I open a terminal my prompt looks like so.
+[source,bash]
+-------------------------------------------
+priimak:~/ $ █
+-------------------------------------------
+The solid box is your cursor and it will most likely be blinking. Whatever you type at 
+the prompt shell will consider as a command that needs to be executed. There are two types 
+of commands that shell can act upon. One, programs located on the file system. And two, 
+instructions for the shell itself. When executing programs, for example those that are 
+found in _/bin/_, command line will consist of two parts, name of the program and command 
+line options. To execute command you must first type it and then press `[Enter]` key.
+Try typing following command. Type only program name and command line options parts, then 
+press `[Enter]` key on the keyboard.
+[source,text]
+-------------------------------------------
+$ /usr/bin/find   /etc/init -type f -name '*network*'     [Enter]
+ └─────────────┘ └───────────────────────────────────┘   └───────┘
+     program             command line options           keyboard key
+-------------------------------------------
+In all examples below we will not be showing the `[Enter]` key. It is implied that after 
+entering the command you will press `[Enter]` on the keyboard. 
+
+The other types of command are more varied in style, for shell itself is a also a 
+programming language. Try entering following and see what will happen.
+[source,bash]
+-------------------------------------------
+$ for i in 1 2 3; do date; sleep 1; done
+-------------------------------------------
+Here `for` is not a program that you can find anywhere in the file system, but an 
+instruction for shell to loop over three numbers 1, 2 and 3 and execute to commands,
+*date* which prints out current date and time and then *sleep* for one second.
+Using shell as a programming language can greatly enhance your power on the command 
+line, but we will not cover it in this tutorial as that is a separate and complicated 
+subject.
+
+File System Navigation
+----------------------
+The very first thing that we will do is we will find out our current working directory.
+To that end we will use command *pwd*, which stands for *_print working directory_*.
+Type *pwd* and press *[Enter]* key on the keyboard.
+[source,bash]
+-------------------------------------------
+$ pwd                                   
+/home/priimak
+-------------------------------------------
+The second line above contains result of running this command, which is just a 
+print out of current working directory.
+To change current working directory we use another command *cd*, which stands 
+for *_change directory_*. Lets go to the root directory.
+[source,bash]
+-------------------------------------------
+$ cd /
+-------------------------------------------
+
+and verify that we are where we think we are
+[source,bash]
+-------------------------------------------
+$ pwd
+/
+-------------------------------------------
+So, that looks correct. Remember that in the file system tree above there was 
+a directory bin/ right below root /. Lets go there and look around.
+[source,bash]
+-------------------------------------------
+$ cd /bin
+$ pwd
+/bin
+-------------------------------------------
+To see what files and other directories are in the curent directory we 
+use command *ls*, which stands for *_list content of directory_*. If no 
+other options are given then it shows content of the current directory.
+[source,bash]
+-------------------------------------------
+$ ls
+bash              fgconsole       nc.openbsd           setfont
+bunzip2           fgrep           netcat               setupcon
+busybox           findmnt         netstat              sh
+bzcat             fuser           nisdomainname        sh.distrib
+bzcmp             fusermount      ntfs-3g              sleep
+...
+-------------------------------------------
+These files that you see are the *_content of /bin directory_*.
+There will actually be many more files in there, which is why I used 
+three dots ... at the bottom to indicate their presence. Notice that 
+among these files there is file called *ls*. That file in the program, 
+which is executed when *ls* is entered on the command line. Everything 
+you type after the command name will be arguments that are passed to 
+the command. Command *ls* can take many arguments, such as '-F' or a 
+wild card like 'l*'. Lets try it
+[source,bash]
+-------------------------------------------
+$ ls -F l*
+less*      lessfile@  lesspipe*  loadkeys*  lowntfs-3g*  lsblk*
+lessecho*  lesskey*   ln*        login*     ls*          lsmod*
+-------------------------------------------
+This output looks a bit differently. First of all because of use of wild 
+card 'l*' we see only files names that start with letter 'l'. And then
+because we used '-F' option *ls* printed out file names with some suffixes.
+These suffixes have precise meaning, * means that file is *_executable_*, 
+i.e. the file is a program, @ means that file is a _symbolic link_, forward 
+slash / means that it is a directory and some others not shown here. 
+By default *ls* shows content of the current directory, but if path to 
+another directory is specified as an argument then it will show content 
+of that directory. Try following
+[source,bash]
+-------------------------------------------
+$ ls -a /
+ls -a /
+./          etc/             run/         usr/      var/
+../         home/            lost+found/  sbin/     vmlinuz@
+bin/        initrd.img@      media/       selinux/  lib/
+boot/       mnt/             srv/         cdrom     opt/        
+ssd/        lib32/           proc/        sys/
+dev/        lib64/           root/        tmp/
+-------------------------------------------
+To discover other arguments possible to pass to the *ls* command you can use 
+another command called *man*, which stands for manual. To see manual for any 
+of the commands found in /bin or /usr/bin you can type *_man [command name]_*.
+Try 
+
+[source,bash]
+-------------------------------------------
+$ man ls
+LS(1)                            User Commands                           LS(1)
+
+NAME
+       ls - list directory contents
+
+SYNOPSIS
+       ls [OPTION]... [FILE]...
+
+DESCRIPTION
+       List  information  about  the FILEs (the current directory by default).
+       Sort entries alphabetically if none of -cftuvSUX nor --sort  is  speci‐
+       fied.
+
+       Mandatory  arguments  to  long  options are mandatory for short options
+       too.
+
+       -a, --all
+              do not ignore entries starting with .
+
+       -A, --almost-all
+              do not list implied . and ..
+ Manual page ls(1) line 1 (press h for help or q to quit)
+-------------------------------------------
+You can srcoll up and down by using arrow keys and quit by pressing *q*. Using 
+command *man* you can learn about use of UNIX CLI by yourself, just by 
+reading manual for any command that you find under /bin or any other location.
+But we are not going to stop here, since our task is to give basic knowledge needed 
+to navigate UNIX CLI.
+
+Reading, Writing and Other File Manipulations
+---------------------------------------------
+Now we know how find our way around UNIX file system and would like to see what 
+is inside of the files. Files in the _/bin_ directory are programs that contain 
+instructions for the central processing unit (CPU) and you need special tools 
+make sense of their content. But files that contain text can be just printed out 
+right in the terminal. To find out what kind of file we are dealing with you can 
+command *file*. For example 
+[source,bash]
+-------------------------------------------
+$ file /bin/ls
+/bin/ls: ELF 64-bit LSB  executable, x86-64, version 1 (SYSV), dynamically linke
+d (uses shared libs), for GNU/Linux 2.6.24, BuildID[sha1]=64d095bc6589dd4bfbf1c6
+d62ae985385965461b, stripped
+-------------------------------------------
+Clearly that is not a text file. Lets try another one.
+[source,bash]
+-------------------------------------------
+$ file /etc/passwd
+/etc/passwd: ASCII text
+-------------------------------------------
+That is a text file. ASCII stands for American Standard Code for Information 
+Interchange, that essentially means that it is a text file and it can be printed 
+out directly in the terminal. To do that we use command *cat*, like so
+
+[source,bash]
+-------------------------------------------
+$ cat /etc/passwd
+root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+bin:x:2:2:bin:/bin:/usr/sbin/nologin
+sys:x:3:3:sys:/dev:/usr/sbin/nologin
+sync:x:4:65534:sync:/bin:/bin/sync
+games:x:5:60:games:/usr/games:/usr/sbin/nologin
+man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
+lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin
+mail:x:8:8:mail:/var/mail:/usr/sbin/nologin
+news:x:9:9:news:/var/spool/news:/usr/sbin/nologin
+uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin
+...
+-------------------------------------------
+This file contains information about all user accounts. If you look carefully you
+should see in there your own username. To find what these fields mean do 
+[source,bash]
+-------------------------------------------
+$ man 5 passwd
+-------------------------------------------
+
+[width="100%", cols="1,1,98", frame="topbot", options="header"]
+|===
+| Command          | Common&nbsp;Options  | Meaning
+| `pwd`            |                      | print working directory
+| `ls`             | `-l, -F, -a`         | list content of the directory
+| `cd`             |                      | change directory
+| `mkdir`          | `-p`                 | make new directory
+| `rm`             | `-r -f`              | remove file or directory
+| `man`            |                      | manual pages
+| `file`           | 			  | determine file type
+| `cat`            |                      | print out content of one or more files
+| `cp`             |                      | make copy of a file
+| `mv`             |                      | move file from one location to another, i.e. rename
+| `vi`, `vim`   |                      | text file editor
+|===
+
+Next Steps
+----------
+ * link:http://linuxcommand.org[]
+ * link:http://linuxcommand.org/tlcl.php[The Linux Command Line Book PDF]
+ * link:http://www.gnu.org/software/bash/manual[BASH Manual]
+ * link:http://www.gnu.org/software/bash/manual[VIM Documentation]
+ * link:ftp://ftp.vim.org/pub/vim/doc/book/vimbook-OPL.pdf[VIM Book]
+ * link:http://www.openvim.com/tutorial.html[Online VIM Tutorial]
