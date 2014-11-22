@@ -596,13 +596,19 @@ press <code>[Enter]</code> key on the keyboard.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="pygments highlight"><code data-lang="text">$ /usr/bin/find   /etc/init -type f -name &#39;*network*&#39;     [Enter]
- └─────────────┘ └───────────────────────────────────┘   └───────┘
-     program             command line options           keyboard key</code></pre>
+ └-------------┘ └-----------------------------------┘   └-------┘
+     command             command line options           keyboard key</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>In all examples below we will not be showing the <code>[Enter]</code> key. It is implied that after
-entering the command you will press <code>[Enter]</code> on the keyboard.</p>
+<p>Empty space separates all parts of what you type on the command line. In the example above
+there are 6 parts, one command and 5 other parts known as arguments, They are
+<code>[/etc/init]</code>, <code>[-type]</code>, <code>[f]</code>, <code>[-name]</code> and <code>['*network*']</code> and all together they form
+command line options. A pair of arguments can form one option. For example, <code>-type f</code> is
+one command line option that consist of two arguments. Also, shown above is <code>[Enter]</code> key,
+which does not form command and its arguments, but simply executes the command.
+In all examples below we will not be showing the <code>[Enter]</code> key and it is implied that after
+entering the command you do press it on the keyboard.</p>
 </div>
 <div class="paragraph">
 <p>The other types of command are more varied in style, for shell itself is a also a
@@ -989,7 +995,7 @@ Learn about this command by using command <strong>man</strong>.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2014-11-10 20:16:51 PST
+Last updated 2014-11-22 00:38:11 PST
 </div>
 </div>
 </body>

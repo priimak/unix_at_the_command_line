@@ -98,11 +98,17 @@ press `[Enter]` key on the keyboard.
 [source,text]
 -------------------------------------------
 $ /usr/bin/find   /etc/init -type f -name '*network*'     [Enter]
- └─────────────┘ └───────────────────────────────────┘   └───────┘
-     program             command line options           keyboard key
+ └-------------┘ └-----------------------------------┘   └-------┘
+     command             command line options           keyboard key
 -------------------------------------------
-In all examples below we will not be showing the `[Enter]` key. It is implied that after 
-entering the command you will press `[Enter]` on the keyboard. 
+Empty space separates all parts of what you type on the command line. In the example above
+there are 6 parts, one command and 5 other parts known as arguments, They are 
+`[/etc/init]`, `[-type]`, `[f]`, `[-name]` and `['*network*']` and all together they form 
+command line options. A pair of arguments can form one option. For example, `-type f` is 
+one command line option that consist of two arguments. Also, shown above is `[Enter]` key, 
+which does not form command and its arguments, but simply executes the command.
+In all examples below we will not be showing the `[Enter]` key and it is implied that after 
+entering the command you do press it on the keyboard. 
 
 The other types of command are more varied in style, for shell itself is a also a 
 programming language. Try entering following and see what will happen.
